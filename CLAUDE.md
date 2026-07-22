@@ -1,3 +1,5 @@
+Notice: This is the local codebase.
+
 # CLAUDE.md — RL over the Steering Interface of a Frozen π0.5
 
 This file briefs Claude Code on a research project built **on top of** the openpi
@@ -136,6 +138,20 @@ Build in `steering_rl/`:
   on `pi05_libero` is a LIKELY outcome, not an edge case (see §9) — it was trained on one
   prompt per task. If flat, FLAG IT and audit `pi05_base`/`pi05_droid` (stronger language
   following) before any RL. Do not proceed to Phase D on a flat interface.
+- **How to run (cloud, built):** the harness lives in `steering_rl/libero/`
+  (locked tasks in `tasks.py`, prompt menus in `menus.py`, predicate wrapper in
+  `predicates.py`, sweep in `run_audit.py`). From the openpi repo root on the cloud box:
+  ```
+  # smoke-test the pipeline first (3 episodes/prompt), then scale to the full 20
+  SERVER_ARGS="--env LIBERO" CLIENT_ARGS="--host 0.0.0.0 --port 8000 --episodes 3" \
+    docker compose -f steering_rl/docker/compose.audit.yml up --build
+  # full audit: drop `--episodes 3` (defaults to 20 per §7)
+  ```
+  Output → `data/steering_rl/audit/`: `audit_records.jsonl` (resumable — reruns
+  skip finished task/prompt/episode triples) and `audit_summary.json`; the run
+  prints per-task spread + the gate verdict. Full sweep ≈ 5×10×20 ≈ 1000 episodes.
+  Run `uv run python -m pytest steering_rl/libero/` locally to check the plumbing
+  (no cloud/MuJoCo needed) before launching.
 
 **Phase D — Real RL: connect Phase-A machinery to the frozen server.**
 - Replace `fake_env` with the real LIBERO client → frozen π0.5 server.
