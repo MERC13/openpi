@@ -167,6 +167,9 @@ def _wait_for_port(host: str, port: int, timeout_s: float, server: "subprocess.P
 @app.function(
     image=image,
     gpu=GPU,
+    # Reserve ample system RAM: restoring the ~3.3B-param pi0.5 JAX checkpoint peaks
+    # well above its on-disk size, and the default container RAM OOM-kills it (exit 137).
+    memory=32768,
     volumes={ASSETS_DIR: assets_vol, AUDIT_DIR: audit_vol},
     timeout=24 * 60 * 60,  # 24h (Modal max) so a multi-hour sweep finishes in one detached run; resumable anyway
 )
