@@ -1,0 +1,5 @@
+benchmark_root: /app/third_party/libero/libero/libero
+bddl_files: /app/third_party/libero/libero/libero/bddl_files
+init_states: /app/third_party/libero/libero/libero/init_files
+datasets: /app/third_party/libero/libero/datasets
+assets: /app/third_party/libero/libero/libero/assets

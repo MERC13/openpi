@@ -18,6 +18,8 @@ This module is duck-typed and imports no libero/MuJoCo — it operates on whatev
 problem-env object it is handed, so it is unit-testable locally with a mock.
 """
 
+from __future__ import annotations  # 3.8 client venv: keep PEP 585/604 generics lazy
+
 import numpy as np
 
 

@@ -11,6 +11,8 @@ Canonical prompts are exactly the strings LIBERO feeds the policy — i.e.
 ``task.language`` (parsed from the filename by ``grab_language_from_filename``).
 """
 
+from __future__ import annotations  # 3.8 client venv: keep PEP 585/604 generics lazy
+
 import dataclasses
 
 TASK_SUITE_NAME = "libero_10"

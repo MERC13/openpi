@@ -16,6 +16,8 @@ Usage (inside the Docker LIBERO runtime, server already up):
     python steering_rl/libero/run_audit.py --host 0.0.0.0 --port 8000
 """
 
+from __future__ import annotations  # 3.8 client venv: keep PEP 585/604 generics lazy
+
 import dataclasses
 import json
 import logging
@@ -39,6 +41,10 @@ class Args:
     resize_size: int = 224
     out_dir: str = "data/steering_rl/audit"
     episodes: int = tasks.NUM_EPISODES
+    # audit only the first N locked tasks (0 = all; smoke tests use 1). A plain int
+    # (not int | None) avoids a union that tyro get_type_hints-evaluates and crashes on
+    # under the 3.8 client venv.
+    tasks_limit: int = 0
     resume: bool = True
     spread_threshold: float = DEFAULT_SPREAD_THRESHOLD
     margin: float = DEFAULT_MARGIN
@@ -135,8 +141,10 @@ def run_audit(args: Args) -> None:
     client = websocket_client_policy.WebsocketClientPolicy(args.host, args.port)
     episode_indices = list(tasks.EPISODE_INDICES[: args.episodes])
 
+    audit_tasks = tasks.TASKS if args.tasks_limit <= 0 else tasks.TASKS[: args.tasks_limit]
+
     with records_path.open("a") as sink:
-        for task in tasks.TASKS:
+        for task in audit_tasks:
             from steering_rl.libero.episode import make_env
 
             env, _, initial_states = make_env(task.name, seed=tasks.ENV_SEED)

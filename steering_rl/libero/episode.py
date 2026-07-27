@@ -14,24 +14,30 @@ libero / openpi_client / MuJoCo are imported lazily inside the functions so this
 module imports cleanly on a machine with none of them (CLAUDE.md §8).
 """
 
+from __future__ import annotations  # 3.8 client venv: keep PEP 585/604 generics lazy
+
 import collections
-from collections.abc import Callable
 import dataclasses
 import logging
 import math
+from typing import TYPE_CHECKING
 
 import numpy as np
 
 from steering_rl.libero import predicates
 from steering_rl.libero import tasks
 
+if TYPE_CHECKING:
+    from collections.abc import Callable
+
+    # A prompt provider is either a fixed string or a callable over a step context.
+    # Referenced only in (lazy, stringized) annotations, so it need not exist at runtime.
+    PromptProvider = str | Callable[[dict], str]
+
 logger = logging.getLogger(__name__)
 
 LIBERO_DUMMY_ACTION = [0.0] * 6 + [-1.0]
 LIBERO_ENV_RESOLUTION = 256
-
-# A prompt provider is either a fixed string or a callable over a step context.
-PromptProvider = str | Callable[[dict], str]
 
 
 @dataclasses.dataclass

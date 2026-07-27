@@ -17,6 +17,8 @@ The reward always comes from the env's own goal check, never from the prompt
 ignoring the prompt, which is exactly what the audit measures.
 """
 
+from __future__ import annotations  # 3.8 client venv: keep PEP 585/604 generics lazy
+
 import dataclasses
 
 from steering_rl.libero import tasks

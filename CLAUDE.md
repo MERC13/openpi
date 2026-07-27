@@ -152,6 +152,18 @@ Build in `steering_rl/`:
   prints per-task spread + the gate verdict. Full sweep ≈ 5×10×20 ≈ 1000 episodes.
   Run `uv run python -m pytest steering_rl/libero/` locally to check the plumbing
   (no cloud/MuJoCo needed) before launching.
+- **How to run (Modal — no Docker / free-tier alternative):** when the Docker cloud
+  box is unavailable, `steering_rl/modal/audit.py` runs the *same* sweep on an
+  on-demand Modal GPU. One container holds both runtimes in separate uv venvs
+  (frozen JAX server `/server_venv` Py3.11 + LIBERO client `/.venv` Py3.8), talking
+  over localhost. After `modal setup` (one-time browser auth), from the repo root:
+  ```
+  modal run steering_rl/modal/audit.py --episodes 3 --tasks-limit 1   # smoke test
+  modal run steering_rl/modal/audit.py                                 # full audit
+  ```
+  Output persists to the `steering-audit` Modal Volume (`/audit`, resumable);
+  `modal volume get steering-audit /audit ./data/steering_rl/audit` pulls it down.
+  Details in `steering_rl/modal/README.md`.
 
 **Phase D — Real RL: connect Phase-A machinery to the frozen server.**
 - Replace `fake_env` with the real LIBERO client → frozen π0.5 server.
