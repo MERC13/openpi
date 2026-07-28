@@ -1,0 +1,459 @@
+{
+  "per_prompt": [
+    {
+      "task": "KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it",
+      "prompt": "place the black bowl into the bottom drawer of the cabinet and close the drawer",
+      "category": "paraphrase",
+      "n": 10,
+      "successes": 10,
+      "success_rate": 1.0
+    },
+    {
+      "task": "KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it",
+      "prompt": "put the black bowl into the bottom drawer and close it",
+      "category": "paraphrase",
+      "n": 10,
+      "successes": 10,
+      "success_rate": 1.0
+    },
+    {
+      "task": "KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it",
+      "prompt": "stow the black bowl in the bottom drawer of the cabinet and close the drawer",
+      "category": "paraphrase",
+      "n": 10,
+      "successes": 10,
+      "success_rate": 1.0
+    },
+    {
+      "task": "KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it",
+      "prompt": "put the black bowl in the bottom drawer of the cabinet",
+      "category": "subgoal",
+      "n": 10,
+      "successes": 10,
+      "success_rate": 1.0
+    },
+    {
+      "task": "KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it",
+      "prompt": "close the bottom drawer of the cabinet",
+      "category": "subgoal",
+      "n": 10,
+      "successes": 10,
+      "success_rate": 1.0
+    },
+    {
+      "task": "KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it",
+      "prompt": "pick up the black bowl and place it in the bottom drawer",
+      "category": "subgoal",
+      "n": 10,
+      "successes": 10,
+      "success_rate": 1.0
+    },
+    {
+      "task": "KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it",
+      "prompt": "put the yellow and white mug in the microwave and close it",
+      "category": "misleading",
+      "n": 10,
+      "successes": 10,
+      "success_rate": 1.0
+    },
+    {
+      "task": "KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it",
+      "prompt": "put the black bowl in the bottom drawer of the cabinet and close it",
+      "category": "canonical",
+      "n": 10,
+      "successes": 9,
+      "success_rate": 0.9
+    },
+    {
+      "task": "KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it",
+      "prompt": "move the black bowl into the cabinet's bottom drawer and shut it",
+      "category": "paraphrase",
+      "n": 10,
+      "successes": 9,
+      "success_rate": 0.9
+    },
+    {
+      "task": "KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it",
+      "prompt": "put both the alphabet soup and the tomato sauce in the basket",
+      "category": "misleading",
+      "n": 10,
+      "successes": 9,
+      "success_rate": 0.9
+    },
+    {
+      "task": "KITCHEN_SCENE6_put_the_yellow_and_white_mug_in_the_microwave_and_close_it",
+      "prompt": "put the yellow and white mug in the microwave",
+      "category": "subgoal",
+      "n": 10,
+      "successes": 10,
+      "success_rate": 1.0
+    },
+    {
+      "task": "KITCHEN_SCENE6_put_the_yellow_and_white_mug_in_the_microwave_and_close_it",
+      "prompt": "put the yellow and white mug in the microwave and close it",
+      "category": "canonical",
+      "n": 10,
+      "successes": 9,
+      "success_rate": 0.9
+    },
+    {
+      "task": "KITCHEN_SCENE6_put_the_yellow_and_white_mug_in_the_microwave_and_close_it",
+      "prompt": "place the yellow and white mug into the microwave and close the microwave",
+      "category": "paraphrase",
+      "n": 10,
+      "successes": 9,
+      "success_rate": 0.9
+    },
+    {
+      "task": "KITCHEN_SCENE6_put_the_yellow_and_white_mug_in_the_microwave_and_close_it",
+      "prompt": "put the yellow and white mug into the microwave and shut the door",
+      "category": "paraphrase",
+      "n": 10,
+      "successes": 9,
+      "success_rate": 0.9
+    },
+    {
+      "task": "KITCHEN_SCENE6_put_the_yellow_and_white_mug_in_the_microwave_and_close_it",
+      "prompt": "move the yellow and white mug into the microwave and close it",
+      "category": "paraphrase",
+      "n": 10,
+      "successes": 9,
+      "success_rate": 0.9
+    },
+    {
+      "task": "KITCHEN_SCENE6_put_the_yellow_and_white_mug_in_the_microwave_and_close_it",
+      "prompt": "stow the yellow and white mug in the microwave and close the door",
+      "category": "paraphrase",
+      "n": 10,
+      "successes": 9,
+      "success_rate": 0.9
+    },
+    {
+      "task": "KITCHEN_SCENE6_put_the_yellow_and_white_mug_in_the_microwave_and_close_it",
+      "prompt": "pick up the yellow and white mug and place it in the microwave",
+      "category": "subgoal",
+      "n": 10,
+      "successes": 9,
+      "success_rate": 0.9
+    },
+    {
+      "task": "KITCHEN_SCENE6_put_the_yellow_and_white_mug_in_the_microwave_and_close_it",
+      "prompt": "close the microwave",
+      "category": "subgoal",
+      "n": 10,
+      "successes": 7,
+      "success_rate": 0.7
+    },
+    {
+      "task": "KITCHEN_SCENE6_put_the_yellow_and_white_mug_in_the_microwave_and_close_it",
+      "prompt": "put the black bowl in the bottom drawer of the cabinet and close it",
+      "category": "misleading",
+      "n": 10,
+      "successes": 6,
+      "success_rate": 0.6
+    },
+    {
+      "task": "KITCHEN_SCENE6_put_the_yellow_and_white_mug_in_the_microwave_and_close_it",
+      "prompt": "put both the cream cheese box and the butter in the basket",
+      "category": "misleading",
+      "n": 10,
+      "successes": 2,
+      "success_rate": 0.2
+    },
+    {
+      "task": "LIVING_ROOM_SCENE1_put_both_the_alphabet_soup_and_the_cream_cheese_box_in_the_basket",
+      "prompt": "put both the alphabet soup and the cream cheese box in the basket",
+      "category": "canonical",
+      "n": 10,
+      "successes": 10,
+      "success_rate": 1.0
+    },
+    {
+      "task": "LIVING_ROOM_SCENE1_put_both_the_alphabet_soup_and_the_cream_cheese_box_in_the_basket",
+      "prompt": "place both the alphabet soup and the cream cheese box into the basket",
+      "category": "paraphrase",
+      "n": 10,
+      "successes": 10,
+      "success_rate": 1.0
+    },
+    {
+      "task": "LIVING_ROOM_SCENE1_put_both_the_alphabet_soup_and_the_cream_cheese_box_in_the_basket",
+      "prompt": "put the alphabet soup and the cream cheese box in the basket",
+      "category": "paraphrase",
+      "n": 10,
+      "successes": 10,
+      "success_rate": 1.0
+    },
+    {
+      "task": "LIVING_ROOM_SCENE1_put_both_the_alphabet_soup_and_the_cream_cheese_box_in_the_basket",
+      "prompt": "move the alphabet soup and the cream cheese box into the basket",
+      "category": "paraphrase",
+      "n": 10,
+      "successes": 10,
+      "success_rate": 1.0
+    },
+    {
+      "task": "LIVING_ROOM_SCENE1_put_both_the_alphabet_soup_and_the_cream_cheese_box_in_the_basket",
+      "prompt": "pick up the alphabet soup and the cream cheese box and put them in the basket",
+      "category": "paraphrase",
+      "n": 10,
+      "successes": 10,
+      "success_rate": 1.0
+    },
+    {
+      "task": "LIVING_ROOM_SCENE1_put_both_the_alphabet_soup_and_the_cream_cheese_box_in_the_basket",
+      "prompt": "put the alphabet soup in the basket",
+      "category": "subgoal",
+      "n": 10,
+      "successes": 10,
+      "success_rate": 1.0
+    },
+    {
+      "task": "LIVING_ROOM_SCENE1_put_both_the_alphabet_soup_and_the_cream_cheese_box_in_the_basket",
+      "prompt": "put the cream cheese box in the basket",
+      "category": "subgoal",
+      "n": 10,
+      "successes": 10,
+      "success_rate": 1.0
+    },
+    {
+      "task": "LIVING_ROOM_SCENE1_put_both_the_alphabet_soup_and_the_cream_cheese_box_in_the_basket",
+      "prompt": "pick up the cream cheese box and place it in the basket",
+      "category": "subgoal",
+      "n": 10,
+      "successes": 10,
+      "success_rate": 1.0
+    },
+    {
+      "task": "LIVING_ROOM_SCENE1_put_both_the_alphabet_soup_and_the_cream_cheese_box_in_the_basket",
+      "prompt": "put both the cream cheese box and the butter in the basket",
+      "category": "misleading",
+      "n": 10,
+      "successes": 9,
+      "success_rate": 0.9
+    },
+    {
+      "task": "LIVING_ROOM_SCENE1_put_both_the_alphabet_soup_and_the_cream_cheese_box_in_the_basket",
+      "prompt": "put the yellow and white mug in the microwave and close it",
+      "category": "misleading",
+      "n": 10,
+      "successes": 7,
+      "success_rate": 0.7
+    },
+    {
+      "task": "LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket",
+      "prompt": "put both the alphabet soup and the tomato sauce in the basket",
+      "category": "canonical",
+      "n": 10,
+      "successes": 10,
+      "success_rate": 1.0
+    },
+    {
+      "task": "LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket",
+      "prompt": "place both the alphabet soup and the tomato sauce into the basket",
+      "category": "paraphrase",
+      "n": 10,
+      "successes": 10,
+      "success_rate": 1.0
+    },
+    {
+      "task": "LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket",
+      "prompt": "move the alphabet soup and the tomato sauce into the basket",
+      "category": "paraphrase",
+      "n": 10,
+      "successes": 10,
+      "success_rate": 1.0
+    },
+    {
+      "task": "LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket",
+      "prompt": "pick up the alphabet soup and the tomato sauce and put them in the basket",
+      "category": "paraphrase",
+      "n": 10,
+      "successes": 10,
+      "success_rate": 1.0
+    },
+    {
+      "task": "LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket",
+      "prompt": "put the alphabet soup in the basket",
+      "category": "subgoal",
+      "n": 10,
+      "successes": 10,
+      "success_rate": 1.0
+    },
+    {
+      "task": "LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket",
+      "prompt": "put the tomato sauce in the basket",
+      "category": "subgoal",
+      "n": 10,
+      "successes": 10,
+      "success_rate": 1.0
+    },
+    {
+      "task": "LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket",
+      "prompt": "put the alphabet soup and the tomato sauce in the basket",
+      "category": "paraphrase",
+      "n": 10,
+      "successes": 9,
+      "success_rate": 0.9
+    },
+    {
+      "task": "LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket",
+      "prompt": "pick up the tomato sauce and place it in the basket",
+      "category": "subgoal",
+      "n": 10,
+      "successes": 8,
+      "success_rate": 0.8
+    },
+    {
+      "task": "LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket",
+      "prompt": "put the black bowl in the bottom drawer of the cabinet and close it",
+      "category": "misleading",
+      "n": 10,
+      "successes": 0,
+      "success_rate": 0.0
+    },
+    {
+      "task": "LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket",
+      "prompt": "put both the cream cheese box and the butter in the basket",
+      "category": "misleading",
+      "n": 10,
+      "successes": 0,
+      "success_rate": 0.0
+    },
+    {
+      "task": "LIVING_ROOM_SCENE2_put_both_the_cream_cheese_box_and_the_butter_in_the_basket",
+      "prompt": "put both the cream cheese box and the butter in the basket",
+      "category": "canonical",
+      "n": 10,
+      "successes": 10,
+      "success_rate": 1.0
+    },
+    {
+      "task": "LIVING_ROOM_SCENE2_put_both_the_cream_cheese_box_and_the_butter_in_the_basket",
+      "prompt": "place both the cream cheese box and the butter into the basket",
+      "category": "paraphrase",
+      "n": 10,
+      "successes": 10,
+      "success_rate": 1.0
+    },
+    {
+      "task": "LIVING_ROOM_SCENE2_put_both_the_cream_cheese_box_and_the_butter_in_the_basket",
+      "prompt": "put the cream cheese box and the butter in the basket",
+      "category": "paraphrase",
+      "n": 10,
+      "successes": 10,
+      "success_rate": 1.0
+    },
+    {
+      "task": "LIVING_ROOM_SCENE2_put_both_the_cream_cheese_box_and_the_butter_in_the_basket",
+      "prompt": "move the cream cheese box and the butter into the basket",
+      "category": "paraphrase",
+      "n": 10,
+      "successes": 10,
+      "success_rate": 1.0
+    },
+    {
+      "task": "LIVING_ROOM_SCENE2_put_both_the_cream_cheese_box_and_the_butter_in_the_basket",
+      "prompt": "pick up the cream cheese box and the butter and put them in the basket",
+      "category": "paraphrase",
+      "n": 10,
+      "successes": 10,
+      "success_rate": 1.0
+    },
+    {
+      "task": "LIVING_ROOM_SCENE2_put_both_the_cream_cheese_box_and_the_butter_in_the_basket",
+      "prompt": "put the cream cheese box in the basket",
+      "category": "subgoal",
+      "n": 10,
+      "successes": 10,
+      "success_rate": 1.0
+    },
+    {
+      "task": "LIVING_ROOM_SCENE2_put_both_the_cream_cheese_box_and_the_butter_in_the_basket",
+      "prompt": "put the butter in the basket",
+      "category": "subgoal",
+      "n": 10,
+      "successes": 10,
+      "success_rate": 1.0
+    },
+    {
+      "task": "LIVING_ROOM_SCENE2_put_both_the_cream_cheese_box_and_the_butter_in_the_basket",
+      "prompt": "pick up the butter and place it in the basket",
+      "category": "subgoal",
+      "n": 10,
+      "successes": 10,
+      "success_rate": 1.0
+    },
+    {
+      "task": "LIVING_ROOM_SCENE2_put_both_the_cream_cheese_box_and_the_butter_in_the_basket",
+      "prompt": "put the black bowl in the bottom drawer of the cabinet and close it",
+      "category": "misleading",
+      "n": 10,
+      "successes": 5,
+      "success_rate": 0.5
+    },
+    {
+      "task": "LIVING_ROOM_SCENE2_put_both_the_cream_cheese_box_and_the_butter_in_the_basket",
+      "prompt": "put both the alphabet soup and the tomato sauce in the basket",
+      "category": "misleading",
+      "n": 10,
+      "successes": 0,
+      "success_rate": 0.0
+    }
+  ],
+  "per_task": {
+    "LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket": {
+      "canonical_rate": 1.0,
+      "best_action_rate": 1.0,
+      "best_action_prompt": "put both the alphabet soup and the tomato sauce in the basket",
+      "misleading_rate": 0.0,
+      "action_spread": 0.19999999999999996,
+      "meaningful_spread": true,
+      "correct_beats_misleading": true,
+      "gate_pass": true
+    },
+    "LIVING_ROOM_SCENE1_put_both_the_alphabet_soup_and_the_cream_cheese_box_in_the_basket": {
+      "canonical_rate": 1.0,
+      "best_action_rate": 1.0,
+      "best_action_prompt": "put both the alphabet soup and the cream cheese box in the basket",
+      "misleading_rate": 0.8,
+      "action_spread": 0.0,
+      "meaningful_spread": false,
+      "correct_beats_misleading": true,
+      "gate_pass": false
+    },
+    "LIVING_ROOM_SCENE2_put_both_the_cream_cheese_box_and_the_butter_in_the_basket": {
+      "canonical_rate": 1.0,
+      "best_action_rate": 1.0,
+      "best_action_prompt": "put both the cream cheese box and the butter in the basket",
+      "misleading_rate": 0.25,
+      "action_spread": 0.0,
+      "meaningful_spread": false,
+      "correct_beats_misleading": true,
+      "gate_pass": false
+    },
+    "KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it": {
+      "canonical_rate": 0.9,
+      "best_action_rate": 1.0,
+      "best_action_prompt": "place the black bowl into the bottom drawer of the cabinet and close the drawer",
+      "misleading_rate": 0.95,
+      "action_spread": 0.09999999999999998,
+      "meaningful_spread": false,
+      "correct_beats_misleading": true,
+      "gate_pass": false
+    },
+    "KITCHEN_SCENE6_put_the_yellow_and_white_mug_in_the_microwave_and_close_it": {
+      "canonical_rate": 0.9,
+      "best_action_rate": 1.0,
+      "best_action_prompt": "put the yellow and white mug in the microwave",
+      "misleading_rate": 0.4,
+      "action_spread": 0.30000000000000004,
+      "meaningful_spread": true,
+      "correct_beats_misleading": true,
+      "gate_pass": true
+    }
+  },
+  "gate_pass_all": false,
+  "spread_threshold": 0.15,
+  "margin": 0.0
+}
