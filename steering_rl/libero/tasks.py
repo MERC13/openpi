@@ -69,8 +69,35 @@ TASKS: tuple[LiberoTask, ...] = (
 TASK_NAMES: tuple[str, ...] = tuple(t.name for t in TASKS)
 
 
+# Candidate tasks screened AFTER the first audit (2026-07-27) showed 3/5 locked
+# tasks are at the legit-prompt ceiling (no spread). These are the remaining
+# libero_10 tasks with exactly 2 goal predicates and, structurally, more room for
+# the prompt to matter — the two 2-object/2-destination tasks force the policy to
+# disambiguate which object goes where. Not part of the §7 locked set until the
+# screen confirms spread; screened via `run_audit.py --candidates`.
+CANDIDATE_TASKS: tuple[LiberoTask, ...] = (
+    LiberoTask(
+        name="LIVING_ROOM_SCENE5_put_the_white_mug_on_the_left_plate_and_put_the_yellow_and_white_mug_on_the_right_plate",
+        canonical="put the white mug on the left plate and put the yellow and white mug on the right plate",
+        predicate_labels=("On(porcelain_mug_1, plate_1)", "On(white_yellow_mug_1, plate_2)"),
+    ),
+    LiberoTask(
+        name="LIVING_ROOM_SCENE6_put_the_white_mug_on_the_plate_and_put_the_chocolate_pudding_to_the_right_of_the_plate",
+        canonical="put the white mug on the plate and put the chocolate pudding to the right of the plate",
+        predicate_labels=("On(porcelain_mug_1, plate_1)", "On(chocolate_pudding_1, plate_right_region)"),
+    ),
+    LiberoTask(
+        name="KITCHEN_SCENE3_turn_on_the_stove_and_put_the_moka_pot_on_it",
+        canonical="turn on the stove and put the moka pot on it",
+        predicate_labels=("Turnon(flat_stove_1)", "On(moka_pot_1, cook_region)"),
+    ),
+)
+
+CANDIDATE_TASK_NAMES: tuple[str, ...] = tuple(t.name for t in CANDIDATE_TASKS)
+
+
 def get_task(name: str) -> LiberoTask:
-    for task in TASKS:
+    for task in (*TASKS, *CANDIDATE_TASKS):
         if task.name == name:
             return task
-    raise KeyError(f"{name!r} is not one of the locked Phase-C tasks")
+    raise KeyError(f"{name!r} is not one of the Phase-C tasks or candidates")

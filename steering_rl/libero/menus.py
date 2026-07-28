@@ -147,6 +147,67 @@ MENUS: dict[str, list[PromptItem]] = {
 }
 
 
+# Candidate-task menus (screened after the first audit showed the locked set is
+# mostly at ceiling). The two 2-object/2-destination tasks get "crossed" misleading
+# prompts (right object, wrong destination) — the sharpest test of prompt control.
+_C1 = tasks.CANDIDATE_TASKS[0].name  # SCENE5: white mug -> left plate, yellow/white mug -> right plate
+_C2 = tasks.CANDIDATE_TASKS[1].name  # SCENE6: white mug -> plate, chocolate pudding -> right of plate
+_C3 = tasks.CANDIDATE_TASKS[2].name  # KITCHEN_SCENE3: turn on stove + put moka pot on it
+
+MENUS.update(
+    {
+        _C1: _menu(
+            canonical="put the white mug on the left plate and put the yellow and white mug on the right plate",
+            paraphrases=[
+                "place the white mug on the left plate and the yellow and white mug on the right plate",
+                "put the white mug onto the left plate, then put the yellow and white mug onto the right plate",
+            ],
+            subgoals=[
+                "put the white mug on the left plate",
+                "put the yellow and white mug on the right plate",
+                "pick up the white mug and place it on the left plate",
+            ],
+            misleading=[
+                "put the white mug on the right plate and the yellow and white mug on the left plate",
+                "put both moka pots on the stove",
+            ],
+        ),
+        _C2: _menu(
+            canonical="put the white mug on the plate and put the chocolate pudding to the right of the plate",
+            paraphrases=[
+                "place the white mug on the plate and put the chocolate pudding to the right of the plate",
+                "put the white mug onto the plate, then set the chocolate pudding to the right of the plate",
+            ],
+            subgoals=[
+                "put the white mug on the plate",
+                "put the chocolate pudding to the right of the plate",
+                "pick up the chocolate pudding and place it to the right of the plate",
+            ],
+            misleading=[
+                "put the chocolate pudding on the plate and the white mug to the right of the plate",
+                "put the white mug on the left plate and the yellow and white mug on the right plate",
+            ],
+        ),
+        _C3: _menu(
+            canonical="turn on the stove and put the moka pot on it",
+            paraphrases=[
+                "switch on the stove and place the moka pot on it",
+                "turn the stove on and set the moka pot on the stove",
+            ],
+            subgoals=[
+                "turn on the stove",
+                "put the moka pot on the stove",
+                "pick up the moka pot and place it on the stove",
+            ],
+            misleading=[
+                "put the black bowl in the bottom drawer of the cabinet and close it",
+                "put the yellow and white mug in the microwave and close it",
+            ],
+        ),
+    }
+)
+
+
 def menu(task_name: str) -> list[PromptItem]:
     """Full audit menu (all categories) for a task."""
     return MENUS[task_name]

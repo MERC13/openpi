@@ -45,6 +45,7 @@ class Args:
     # (not int | None) avoids a union that tyro get_type_hints-evaluates and crashes on
     # under the 3.8 client venv.
     tasks_limit: int = 0
+    candidates: bool = False  # screen tasks.CANDIDATE_TASKS instead of the locked §7 set
     resume: bool = True
     spread_threshold: float = DEFAULT_SPREAD_THRESHOLD
     margin: float = DEFAULT_MARGIN
@@ -90,7 +91,10 @@ def aggregate_audit(
         agg["success_rate"] = agg["successes"] / agg["n"] if agg["n"] else 0.0
 
     per_task: dict[str, dict] = {}
-    for task_name in tasks.TASK_NAMES:
+    # Derive task names from the records (in first-seen order) so this works for
+    # both the locked set and screened candidate tasks.
+    record_task_names = list(dict.fromkeys(r["task"] for r in records))
+    for task_name in record_task_names:
         prompts = [a for a in per_prompt.values() if a["task"] == task_name]
         if not prompts:
             continue
@@ -141,7 +145,9 @@ def run_audit(args: Args) -> None:
     client = websocket_client_policy.WebsocketClientPolicy(args.host, args.port)
     episode_indices = list(tasks.EPISODE_INDICES[: args.episodes])
 
-    audit_tasks = tasks.TASKS if args.tasks_limit <= 0 else tasks.TASKS[: args.tasks_limit]
+    audit_tasks = tasks.CANDIDATE_TASKS if args.candidates else tasks.TASKS
+    if args.tasks_limit > 0:
+        audit_tasks = audit_tasks[: args.tasks_limit]
 
     with records_path.open("a") as sink:
         for task in audit_tasks:
