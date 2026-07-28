@@ -144,6 +144,10 @@ app = modal.App("steering-rl-audit")
 # Volumes: checkpoint cache (download pi0.5 once) + resumable audit log.
 assets_vol = modal.Volume.from_name("openpi-assets", create_if_missing=True)
 audit_vol = modal.Volume.from_name("steering-audit", create_if_missing=True)
+# Publishes the frozen server's public tunnel address so a LOCAL client can reach it.
+tunnel_info = modal.Dict.from_name("steering-tunnel", create_if_missing=True)
+
+SERVE_GPU = "T4"  # inference-only (no rendering) -> cheapest GPU that fits pi0.5's >8GB floor
 
 
 def _wait_for_port(host: str, port: int, timeout_s: float, server: "subprocess.Popen | None" = None) -> None:
@@ -170,6 +174,11 @@ def _wait_for_port(host: str, port: int, timeout_s: float, server: "subprocess.P
     # Reserve ample system RAM: restoring the ~3.3B-param pi0.5 JAX checkpoint peaks
     # well above its on-disk size, and the default container RAM OOM-kills it (exit 137).
     memory=32768,
+    # Exactly one container ever: two concurrent runs would both append to the same
+    # volume JSONL and race/duplicate records. retries=0 so a failed call never spawns
+    # a retry that races a manual re-spawn (which is how a phantom 2nd container arose).
+    max_containers=1,
+    retries=0,
     volumes={ASSETS_DIR: assets_vol, AUDIT_DIR: audit_vol},
     timeout=24 * 60 * 60,  # 24h (Modal max) so a multi-hour sweep finishes in one detached run; resumable anyway
 )
@@ -229,6 +238,61 @@ def run_audit(client_args: str = "", server_wait_s: float = 1200.0, mujoco_gl: s
         raise RuntimeError(f"audit client exited with code {result.returncode}")
     summary_path = pathlib.Path(AUDIT_DIR) / "audit_summary.json"
     return summary_path.read_text() if summary_path.exists() else "(no summary written)"
+
+
+def _start_frozen_server():
+    """Launch the frozen JAX pi0.5 server subprocess and wait for it to listen."""
+    import os
+
+    server_env = {**os.environ, "OPENPI_DATA_HOME": ASSETS_DIR, "IS_DOCKER": "true"}
+    server_env.pop("MUJOCO_GL", None)
+    server_env.pop("PYTHONPATH", None)
+    server = subprocess.Popen(
+        [f"{SERVER_VENV}/bin/python", "scripts/serve_policy.py", "--env", "LIBERO"],
+        cwd=APP_DIR,
+        env=server_env,
+    )
+    _wait_for_port("127.0.0.1", SERVER_PORT, 1200.0, server=server)
+    return server
+
+
+@app.function(
+    image=image,
+    gpu=SERVE_GPU,
+    memory=32768,
+    max_containers=1,
+    retries=0,
+    volumes={ASSETS_DIR: assets_vol},
+    timeout=24 * 60 * 60,
+)
+def serve(minutes: float = 180.0) -> None:
+    """Serve the frozen pi0.5 over a public TCP tunnel for a LOCAL client.
+
+    This is the frugal Phase C/D/E path: LIBERO rollouts + rendering + the RL loop
+    run locally (free, on the 4070 via MUJOCO_GL=glx), and only pi0.5 inference
+    runs here. Publishes the tunnel address to the ``steering-tunnel`` Dict; a
+    local client reads it and connects with ``ws://host:port``. Serves for
+    ``minutes`` (or until the app is stopped, which also stops billing).
+    """
+    server = _start_frozen_server()
+    print(f"[serve] pi0.5 up; opening public tunnel to :{SERVER_PORT}", flush=True)
+    try:
+        with modal.forward(SERVER_PORT, unencrypted=True) as tunnel:
+            host, port = tunnel.tcp_socket
+            tunnel_info["address"] = {"host": host, "port": port, "ts": time.time()}
+            print(f"[serve] TUNNEL ws://{host}:{port}  (serving {minutes:.0f} min)", flush=True)
+            deadline = time.time() + minutes * 60
+            while time.time() < deadline:
+                if server.poll() is not None:
+                    raise RuntimeError(f"pi0.5 server exited with code {server.returncode}")
+                time.sleep(10)
+    finally:
+        tunnel_info.pop("address", None)
+        server.terminate()
+        try:
+            server.wait(timeout=30)
+        except subprocess.TimeoutExpired:
+            server.kill()
 
 
 @app.function(image=image, timeout=900)  # no gpu= -> CPU only, ~free
