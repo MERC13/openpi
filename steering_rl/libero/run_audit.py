@@ -78,6 +78,9 @@ def aggregate_audit(
     Pure function: no I/O, no env. ``records`` are dicts with at least
     ``task``, ``prompt``, ``category``, ``success`` (bool).
     """
+    # Errored episodes (e.g. a dropped server connection) are not valid measurements;
+    # drop them so a transient failure never counts as a task failure in the gate.
+    records = [r for r in records if not r.get("error")]
     # group successes per (task, prompt)
     per_prompt: dict[tuple[str, str], dict] = {}
     for r in records:
@@ -139,7 +142,9 @@ def run_audit(args: Args) -> None:
     records_path = out_dir / "audit_records.jsonl"
 
     existing = _load_records(records_path) if args.resume else []
-    done_keys = {_record_key(r) for r in existing}
+    # Re-run episodes that errored out (e.g. a dropped connection) — only clean
+    # measurements count as "done", so a transient failure is retried on resume.
+    done_keys = {_record_key(r) for r in existing if not r.get("error")}
     logger.info("resuming with %d episodes already recorded", len(done_keys))
 
     client = websocket_client_policy.WebsocketClientPolicy(args.host, args.port)

@@ -43,6 +43,20 @@ def test_per_task_metrics_and_gate_pass():
     assert summary["gate_pass_all"] is True
 
 
+def test_errored_records_are_ignored():
+    # A clean 1.0 measurement plus 3 connection-errored records for the same prompt
+    # must aggregate to rate 1.0 over n=1 — errored episodes are not counted.
+    records = [{"task": TASK, "prompt": "p", "category": menus.CANONICAL, "episode_index": 0, "success": True}]
+    records += [
+        {"task": TASK, "prompt": "p", "category": menus.CANONICAL, "episode_index": i, "success": False, "error": "conn"}
+        for i in range(1, 4)
+    ]
+    summary = aggregate_audit(records)
+    agg = summary["per_prompt"][0]
+    assert agg["n"] == 1
+    assert agg["success_rate"] == 1.0
+
+
 def test_flat_interface_fails_gate():
     # All prompts identical success -> no spread, correct does not beat misleading.
     records = []
