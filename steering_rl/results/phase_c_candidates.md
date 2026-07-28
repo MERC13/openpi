@@ -52,3 +52,20 @@ Flat/failed on pi05_libero? See CLAUDE.md §9: audit pi05_base / pi05_droid befo
 
 Gate-passers across all 8 tasks: soup+tomato, mug->microwave, SCENE6, KITCHEN_SCENE3 (4/8).
 Tasks with a prompt that BEATS canonical (real headroom for steering): mug->microwave, SCENE6 only.
+
+## §9 fallback probe: pi05_base zero-shot on LIBERO (2026-07-28)
+
+Served pi05_base params + LIBERO norm stats + LIBERO transforms
+(steering_rl/serving/serve_base_libero.py). Probe: task LIVING_ROOM_SCENE2
+(soup+tomato, which pi05_libero aces at 1.0) x ~10 prompts x 3 episodes = 30 episodes.
+
+Result: **0/30 success on every prompt.** All episodes ran the full 530 steps with
+no errors — the robot moved but never completed the task. pi05_base is genuinely
+incompetent at LIBERO zero-shot (it was never fine-tuned on this embodiment; its
+state normalization also differs). The §9 fallback is therefore a dead end:
+pi05_base/droid are not usable LIBERO policies, and fine-tuning them is out of
+scope (CLAUDE.md §2 frozen VLA, §6 conditioning fine-tune CUT).
+
+Conclusion: on the available FROZEN pi05 checkpoints, learned prompt-steering has
+no viable headroom on LIBERO — pi05_libero is competent but prompt-robust; the
+better-language-following checkpoints cannot do the tasks. Well-evidenced null result.
