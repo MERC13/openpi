@@ -186,7 +186,9 @@ def _wait_for_port(host: str, port: int, timeout_s: float, server: "subprocess.P
     volumes={ASSETS_DIR: assets_vol, AUDIT_DIR: audit_vol},
     timeout=24 * 60 * 60,  # 24h (Modal max) so a multi-hour sweep finishes in one detached run; resumable anyway
 )
-def run_audit(client_args: str = "", server_wait_s: float = 1200.0, mujoco_gl: str = "osmesa") -> str:
+def run_audit(
+    client_args: str = "", server_wait_s: float = 1200.0, mujoco_gl: str = "osmesa", *, base_model: bool = False
+) -> str:
     """Boot the frozen server, then run the audit sweep against it.
 
     ``client_args`` is forwarded verbatim to ``run_audit.py`` (tyro CLI), e.g.
@@ -195,10 +197,13 @@ def run_audit(client_args: str = "", server_wait_s: float = 1200.0, mujoco_gl: s
     ``mujoco_gl`` selects the client's MuJoCo render backend: ``osmesa`` (CPU,
     the robust headless default — EGL gives GL_FRAMEBUFFER_UNSUPPORTED on Modal,
     and glx needs an X display that a headless container lacks).
+    ``base_model`` serves pi05_base-on-LIBERO (the §9 fallback) instead of
+    pi05_libero, and writes to a separate ``/audit/base`` dir.
     """
     import os
 
-    # ---- start the frozen JAX pi0.5 server (background) ----
+    out_dir = f"{AUDIT_DIR}/base" if base_model else AUDIT_DIR
+    # ---- start the frozen JAX server (background) ----
     # openpi is installed into SERVER_VENV at build, so launch its python directly.
     server_env = {
         **os.environ,
@@ -207,8 +212,11 @@ def run_audit(client_args: str = "", server_wait_s: float = 1200.0, mujoco_gl: s
     }
     server_env.pop("MUJOCO_GL", None)  # server doesn't render
     server_env.pop("PYTHONPATH", None)  # use the installed package, not the libero paths
+    server_script = (
+        ["steering_rl/serving/serve_base_libero.py"] if base_model else ["scripts/serve_policy.py", "--env", "LIBERO"]
+    )
     server = subprocess.Popen(
-        [f"{SERVER_VENV}/bin/python", "scripts/serve_policy.py", "--env", "LIBERO"],
+        [f"{SERVER_VENV}/bin/python", *server_script],
         cwd=APP_DIR,
         env=server_env,
     )
@@ -226,7 +234,7 @@ def run_audit(client_args: str = "", server_wait_s: float = 1200.0, mujoco_gl: s
         }
         cmd = [
             f"{LIBERO_VENV}/bin/python", "steering_rl/libero/run_audit.py",
-            "--host", "127.0.0.1", "--port", str(SERVER_PORT), "--out-dir", AUDIT_DIR,
+            "--host", "127.0.0.1", "--port", str(SERVER_PORT), "--out-dir", out_dir,
             *shlex.split(client_args),
         ]
         result = subprocess.run(cmd, cwd=APP_DIR, env=client_env, check=False)
@@ -240,7 +248,7 @@ def run_audit(client_args: str = "", server_wait_s: float = 1200.0, mujoco_gl: s
 
     if result.returncode != 0:
         raise RuntimeError(f"audit client exited with code {result.returncode}")
-    summary_path = pathlib.Path(AUDIT_DIR) / "audit_summary.json"
+    summary_path = pathlib.Path(out_dir) / "audit_summary.json"
     return summary_path.read_text() if summary_path.exists() else "(no summary written)"
 
 
