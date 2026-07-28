@@ -51,6 +51,10 @@ SERVER_VENV = "/server_venv"  # Python 3.11 — frozen JAX pi0.5 server
 ASSETS_DIR = "/openpi_assets"  # persisted checkpoint cache (Volume)
 AUDIT_DIR = "/audit"  # persisted audit log (Volume)
 
+# Excluded from baked dirs: compiled caches churn during the build (importing the
+# module regenerates .pyc), which trips Modal's "modified during build" guard.
+_IGNORE = ["**/__pycache__/**", "**/*.pyc", "**/*.pyo"]
+
 CUDA_IMAGE = "nvidia/cuda:12.2.2-cudnn8-runtime-ubuntu22.04"
 GPU = "A10G"  # 24GB, ~2-3x T4 for pi0.5 inference; image is GPU-agnostic so this is free to change
 SERVER_PORT = 8000
@@ -86,8 +90,8 @@ image = (
     .add_local_file(_p("packages", "openpi-client", "pyproject.toml"), "/tmp/openpi-client/pyproject.toml", copy=True)
     .add_local_file(_p("uv.lock"), f"{APP_DIR}/uv.lock", copy=True)
     .add_local_file(_p("pyproject.toml"), f"{APP_DIR}/pyproject.toml", copy=True)
-    .add_local_dir(_p("packages", "openpi-client"), f"{APP_DIR}/packages/openpi-client", copy=True)
-    .add_local_dir(_p("src"), f"{APP_DIR}/src", copy=True)
+    .add_local_dir(_p("packages", "openpi-client"), f"{APP_DIR}/packages/openpi-client", copy=True, ignore=_IGNORE)
+    .add_local_dir(_p("src"), f"{APP_DIR}/src", copy=True, ignore=_IGNORE)
     # ---- LIBERO client venv (Python 3.8), mirrors libero.Dockerfile ----
     .run_commands(
         "echo 'setuptools<70' > /tmp/build-constraints.txt",
@@ -124,9 +128,9 @@ image = (
     # ---- runtime code (added last so edits don't rebuild the venvs) ----
     # (examples/ is intentionally not baked — the client reimplements the libero
     #  loop in steering_rl/libero/episode.py and imports nothing from examples/.)
-    .add_local_dir(_p("scripts"), f"{APP_DIR}/scripts", copy=True)
-    .add_local_dir(_p("third_party", "libero"), f"{APP_DIR}/third_party/libero", copy=True)
-    .add_local_dir(_p("steering_rl"), f"{APP_DIR}/steering_rl", copy=True)
+    .add_local_dir(_p("scripts"), f"{APP_DIR}/scripts", copy=True, ignore=_IGNORE)
+    .add_local_dir(_p("third_party", "libero"), f"{APP_DIR}/third_party/libero", copy=True, ignore=_IGNORE)
+    .add_local_dir(_p("steering_rl"), f"{APP_DIR}/steering_rl", copy=True, ignore=_IGNORE)
     .workdir(APP_DIR)
     .env(
         {
